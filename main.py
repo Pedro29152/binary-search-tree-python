@@ -1,22 +1,36 @@
-import random, timeit
+import random, timeit, sys
 from BinaryTree.BinarySearchTree import BinarySearchTree
 
 if __name__ == '__main__':
-    arvore = BinarySearchTree()
+    size = 100
+    try:
+        size = int(sys.argv[1])
+    except:
+        pass
 
-    tam = 6
-    max_val = 50
+    max_val = size*10
+    tree = BinarySearchTree()
+
     arr = []
-    for i in range(tam):
-        val = random.randint(0, max_val)
+    for i in range(size):
         try:
-            arvore.add_node(val)
+            val = random.randint(0, max_val)
+            tree.add_node(val)
             arr.append(val)
         except ValueError:
             pass
-    
-    arvore2 = BinarySearchTree(arvore.raiz)
-    e = arr[random.randint(0, len(arr) - 1)]
-    arvore.print_tree()
-    arvore2.print_tree()
 
+    print("Tree height/depth: ", tree.get_height())
+    print("Number of elements inserted: ", tree.get_size())
+    print("Tree max value: ", tree.get_max().id)
+    print("Tree min value: ", tree.get_min().id)
+    print("Tree as a sorted list: ", tree.get_list())
+    print("Tree as an inverted sorted list: ", tree.get_list(ascending=False))
+    try:
+        show = int(input('Show tree? (1 - Yes): '))
+        if show == 1:
+            print('TREE---------------------------------')
+            tree.print_tree()
+            print('-------------------------------------')
+    except:
+        pass

@@ -1,37 +1,37 @@
 from BinaryTree.Node import Node
 
 class BinarySearchTree():
-    def __init__(self, raiz: Node = None):
-        self.raiz = raiz
+    def __init__(self, root: Node = None):
+        self.root = root
 
     def add_node(self, id: int, value = None):
         new_node = Node(id, value=value)
-        if not self.raiz:
-            self.raiz = new_node
+        if not self.root:
+            self.root = new_node
         else:
-            self.raiz.add(new_node)
+            self.root.add(new_node)
         return new_node
 
     def remove_node(self, id: int):
-        if not self.raiz:
+        if not self.root:
             return None
 
-        node = self.raiz.get_node(id)
+        node = self.root.get_node(id)
         if not node:
             return None
         
         if not node.parent:
             if not node.right and not node.left:
-                self.raiz = None
+                self.root = None
             elif node.right and not node.left:
-                self.raiz = node.right
+                self.root = node.right
             elif node.left and not node.right:
-                self.raiz = node.left
+                self.root = node.left
             else:
                 min_node = node.right.get_min_node()
                 self.remove_node(min_node.id)
-                self.raiz.id = min_node.id
-                self.raiz.value = min_node.value
+                self.root.id = min_node.id
+                self.root.value = min_node.value
         else:
             parent_side = ''
             if node.parent.right:
@@ -54,16 +54,16 @@ class BinarySearchTree():
         return node
                 
     def get_node(self, id: int):
-        return self.raiz.get_node(id)
+        return self.root.get_node(id)
 
     def get_min(self):
-        return self.raiz.get_min_node()
+        return self.root.get_min_node()
 
     def get_max(self):
-        return self.raiz.get_max_node()
+        return self.root.get_max_node()
 
     def get_list(self, max_size: int=None, ascending: bool=True):
-        return self.raiz.get_sorted_list(max_size=max_size, ascending=ascending)
+        return self.root.get_sorted_list(max_size=max_size, ascending=ascending)
     
     def load_from_list(self, load_list: 'list'):
         for item in load_list:
@@ -74,22 +74,22 @@ class BinarySearchTree():
         return self
 
     def get_size(self):
-        if not self.raiz:
+        if not self.root:
             return 0
-        return self.raiz.get_size()
+        return self.root.get_size()
 
     def get_height(self):
-        return self.raiz.get_height()
+        return self.root.get_height()
 
     def print_tree(self):
-        if not self.raiz:
+        if not self.root:
             return
         
-        altura = self.raiz.get_height()
-        nivel = [['   ' for j in range(pow(2,i))] for i in range(altura)]
-        self.__fill_matrix(nivel, self.raiz)
+        altura = self.root.get_height()
+        str_size = 3
+        nivel = [[str_size * ' ' for j in range(pow(2,i))] for i in range(altura)]
+        self.__fill_matrix(nivel, self.root)
         for idx, nv in enumerate(nivel):
-            str_size = 3
             prefix = pow(2,altura-(idx)) * ' '
             separator = self.__get_separator(altura, idx+1, str_size) * ' '
             content = separator.join([self.__get_fill(str(i), str_size) + str(i) for i in nv])
